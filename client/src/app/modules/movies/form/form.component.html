@@ -1,0 +1,23 @@
+<div id="movieFormDiv">
+  <div class="flex-container-row flex-container-justify">
+    <label for="name">Name</label>
+    <input type="text" [(ngModel)]="movie.name" id="nameEntry" required>
+  </div>
+  <div class="flex-container-row  flex-container-justify">
+    <label for="gender">Gender</label>
+    <input type="text" [(ngModel)]="movie.gender" id="genderEntry" [disabled]= "movie.hasConflict" required>
+  </div>
+  <div class="flex-container-row  flex-container-justify">
+    <label for="slug">Slug</label>
+    <input type="text" [(ngModel)]="movie.slug" id="slugEntry" [disabled]= "movie.hasConflict" required>
+  </div>
+  <div class="flex-container-row  flex-container-justify">
+    <label for="codeName">Code Name</label>
+    <input type="text" [(ngModel)]="movie.codeName" id="codeNameEntry" [disabled]= "movie.hasConflict" required>
+  </div>
+  <button (click)= "onSave()">Save</button>
+  <span *ngIf="edit">
+    <button (click)= "onDelete()">Delete</button>
+    <button (click)= "onCancelEdit()">Cancel</button>
+  </span>
+</div>

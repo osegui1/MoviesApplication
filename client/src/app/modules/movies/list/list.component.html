@@ -1,0 +1,26 @@
+<div id ="listContainer">
+  <a href="#" (click)= "toggleShowDuplicates()">{{showDuplicatesLink}}</a>
+  <ul *ngIf= "showDuplicates">
+    <li *ngFor = "let duplicate of duplicatesList">
+      <a href="#" (click)= "onDuplicateSelected(duplicate)">{{duplicate.name + ' [' + duplicate.count + ']'}}</a>
+    </li>
+  </ul>
+  <table>
+    <thead>
+      <th>Name</th>
+      <th>Gender</th>
+      <th>Slug</th>
+      <th>Code Name</th>
+      <th></th>
+      <th></th>
+    </thead>
+    <tr *ngFor = "let movie of movies">
+      <td>{{movie.name}}</td>
+      <td>{{movie.gender}}</td>
+      <td>{{movie.slug}}</td>
+      <td>{{movie.codeName}}</td>
+      <td><a href="#" (click)= "onSelectMovie(movie)">Edit</a></td>
+      <td><a href="#" (click)= "onDeleteMovie(movie)">Delete</a></td>
+    </tr>
+  </table>
+</div>
