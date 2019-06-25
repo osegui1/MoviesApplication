@@ -30,6 +30,7 @@ export class FormComponent implements OnChanges {
   moviePreviousVal: MovieDto;
   moviesVal: MovieDto[];
   edit: boolean;
+  customErrors: string[];
 
   constructor() { 
   }
@@ -54,18 +55,60 @@ export class FormComponent implements OnChanges {
   }
 
   onSave() {
-    if(!this.edit)
-    {
-      this.movie.id = this.movies[this.movies.length -1].id + 1;
-      this.movies.push(this.movie);
+    this.customErrors = [];
+    this.customErrors = this.validateDuplicates(this.movie.hasConflict);
 
+    if(this.customErrors.length === 0) {
+
+      if(!this.edit) {
+        this.movie.id = this.movies[this.movies.length -1].id + 1;
+        this.movies.push(this.movie);
+      }
+
+      this.clearForm();
     }
-
-    this.clearForm();
   }
 
   onDelete() {
 
+  }
+
+  validateDuplicates(validateName:boolean): string[] {
+    let errorMessages = [];
+    let duplicatedSlug = false;
+    let duplicatedCodeName = false;
+    let duplicatedName = false;
+
+    for(let movie of this.movies)
+    {
+      if(movie.id !== this.movie.id) {
+        duplicatedSlug = movie.slug === this.movie.slug;
+        duplicatedCodeName = movie.codeName === this.movie.codeName;
+
+        if(validateName) {
+          duplicatedName = movie.name === this.movie.name;
+        }
+
+        if(duplicatedSlug || duplicatedCodeName || duplicatedName)
+        {
+          break;
+        }
+      }
+    }
+
+    if(duplicatedSlug) {
+      errorMessages.push("There is already a movie with the same slug");
+    }
+
+    if(duplicatedCodeName) {
+      errorMessages.push("There is already a movie with the same code name");
+    }
+
+    if(duplicatedName) {
+      errorMessages.push("There is already a movie with the same name");
+    }
+
+    return errorMessages;
   }
 
   copyMovieValues(movieOld: MovieDto, movieNew: MovieDto) {
@@ -79,6 +122,7 @@ export class FormComponent implements OnChanges {
   clearForm() {
     this.edit = false;
     this.movieEdit = new MovieDto();
+    this.customErrors = [];
   }
 
 }

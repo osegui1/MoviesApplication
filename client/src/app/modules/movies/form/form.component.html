@@ -1,23 +1,34 @@
-<div id="movieFormDiv">
+<form #movieform= "ngForm" id="movieFormDiv">
   <div class="flex-container-row flex-container-justify">
     <label for="name">Name</label>
-    <input type="text" [(ngModel)]="movie.name" id="nameEntry" required>
+    <input type="text" [(ngModel)]="movie.name" name= "nameEntry" required maxlength="70" #name="ngModel">
   </div>
   <div class="flex-container-row  flex-container-justify">
     <label for="gender">Gender</label>
-    <input type="text" [(ngModel)]="movie.gender" id="genderEntry" [disabled]= "movie.hasConflict" required>
+    <input type="text" [(ngModel)]="movie.gender" name= "genderEntry" [disabled]= "movie.hasConflict" required maxlength="20" #gender="ngModel">
   </div>
   <div class="flex-container-row  flex-container-justify">
     <label for="slug">Slug</label>
-    <input type="text" [(ngModel)]="movie.slug" id="slugEntry" [disabled]= "movie.hasConflict" required>
+    <input type="text" [(ngModel)]="movie.slug" name="slugEntry" [disabled]= "movie.hasConflict" required maxlength="50" pattern="[A-Za-z0-9\-]+" #slug="ngModel">
   </div>
   <div class="flex-container-row  flex-container-justify">
     <label for="codeName">Code Name</label>
-    <input type="text" [(ngModel)]="movie.codeName" id="codeNameEntry" [disabled]= "movie.hasConflict" required>
+    <input type="text" [(ngModel)]="movie.codeName" name="codeNameEntry" [disabled]= "movie.hasConflict" required maxlength="10" pattern="[A-Za-z0-9]+" #codename="ngModel">
   </div>
-  <button (click)= "onSave()">Save</button>
+  <button (click)= "onSave()" [disabled]= "!movieform.valid">Save</button>
   <span *ngIf="edit">
     <button (click)= "onDelete()">Delete</button>
     <button (click)= "onCancelEdit()">Cancel</button>
   </span>
-</div>
+  <div class="alert">
+    <ul>
+      <li *ngIf="name.invalid && (name.dirty || name.touched) && name.errors.required">Name is required</li>
+      <li *ngIf="gender.invalid && (gender.dirty || gender.touched) && gender.errors.required">Gender is required</li>
+      <li *ngIf="slug.invalid && (slug.dirty || slug.touched) && slug.errors.required">Slug is required</li>
+      <li *ngIf="slug.invalid && (slug.dirty || slug.touched) && slug.errors.pattern">Slug should only contain letters, numbers or dash</li>
+      <li *ngIf="codename.invalid && (codename.dirty || codename.touched) && codename.errors.required">Code name is required</li>
+      <li *ngIf="codename.invalid && (codename.dirty || codename.touched) && codename.errors.pattern">Code name should not contain any special characters</li>
+      <li *ngFor="let error of customErrors">{{error}}</li>
+    </ul>
+  </div>
+</form>
