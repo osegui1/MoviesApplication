@@ -1,5 +1,6 @@
 import { Component, Input, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { MovieDto } from '../../../shared/dto/movie.dto';
+import { ApiService } from '../../../../app/services/api.service';
 
 @Component({
   selector: 'movies-form',
@@ -32,7 +33,7 @@ export class FormComponent implements OnChanges {
   edit: boolean;
   customErrors: string[];
 
-  constructor() { 
+  constructor(private apiService: ApiService) { 
   }
 
   ngOnChanges(changes: SimpleChanges) { 
@@ -60,18 +61,35 @@ export class FormComponent implements OnChanges {
 
     if(this.customErrors.length === 0) {
 
-      if(!this.edit) {
-        this.movie.id = this.movies.length > 0 ?this.movies[this.movies.length -1].id + 1: 1;
-        this.movies.push(this.movie);
+      if(this.edit) {
+        this.apiService.updateMovie(this.movie).subscribe(response => {
+          if(response.ok) {
+            this.clearForm();
+          }
+        });
       }
+      else{
+        this.apiService.createMovie(this.movie).subscribe(response => {
+          if(response.ok) {
+            let movieCreated = response.body;
 
-      this.clearForm();
+            if(movieCreated.id > 0) {
+              this.movies.push(movieCreated);
+              this.clearForm();
+            }
+          }
+        });
+      }
     }
   }
 
   onDelete() {
-    this.movies.splice(this.movies.indexOf(this.movie), 1);
-    this.clearForm();
+    this.apiService.deleteMovie(this.movie.id).subscribe((response) => {
+      if(response.ok) {
+        this.movies.splice(this.movies.indexOf(this.movie), 1);
+        this.clearForm();
+      }
+    });
   }
 
   validateDuplicates(validateName:boolean): string[] {

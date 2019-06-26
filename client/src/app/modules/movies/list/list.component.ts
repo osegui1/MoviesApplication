@@ -1,12 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { MovieDto } from '../../../shared/dto/movie.dto';
+import { ApiService } from '../../../../app/services/api.service';
 
 @Component({
   selector: 'movies-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
-export class ListComponent implements OnInit, OnChanges {
+export class ListComponent implements OnChanges {
 
   @Input()
   get movieSelected() {
@@ -32,11 +33,7 @@ export class ListComponent implements OnInit, OnChanges {
   showDuplicates: boolean = false;
   showDuplicatesLink: string = "Show Duplicates";
   
-  constructor() {  
-  }
-
-  ngOnInit() {
-    
+  constructor(private apiService: ApiService) {  
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -60,8 +57,12 @@ export class ListComponent implements OnInit, OnChanges {
   }
 
   onDeleteMovie(movie: MovieDto) {
-    this.movies.splice(this.movies.indexOf(movie), 1);
-    this.processDuplicates();
+    this.apiService.deleteMovie(movie.id).subscribe((response) => {
+      if(response.ok) {
+        this.movies.splice(this.movies.indexOf(movie), 1);
+        this.processDuplicates();
+      }
+    });
   }
   
   onDuplicateSelected(duplicate: { name: string, count: number, defaultMovieId: number }) {
