@@ -24,9 +24,9 @@ Installation instructions
 -------------------------
 1- After downloading the source code for both the client and the server, modify the connection string located in the appsettings.json file on the server 
 
-2- Go to the folder MovieServices and build the server project using the command 'dotnet build'
+2- Go to the root folder of the server application and build the project using the command 'dotnet build'
 
-3- Start the server by using 'dotnet run'. The server application should start at http://localhost:5000
+3- Go to the folder MovieServices and start the server by using 'dotnet run'. The server application should start at http://localhost:5000
 
 4- Go to the client folder and use 'npm install' for downloading the node modules in the project
 
