@@ -28,7 +28,7 @@ Installation instructions
 
 3- Go to the folder MovieServices and start the server by using 'dotnet run'. The server application should start at http://localhost:5000. The full url of the API is http://localhost:5000/api/movies.
 
-4- Go to the client folder and use 'npm install' for downloading the node modules in the project
+4- Go to the client folder and use 'npm install' in another terminal for downloading the node modules in the project
 
 5- Start the client by using the command 'ng serve'. The client application should start at http://localhost:4200
 
