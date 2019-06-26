@@ -17,15 +17,19 @@ export class MoviesblService {
     this.sortMoviesArray(moviesCopy);
 
     moviesCopy.forEach(movie => {
-       if(!movieCounter[movie.name]){
-         movieCounter[movie.name] = 0;
+       let name = movie.name.toLowerCase();
+
+       if(!movieCounter[name]){
+         movieCounter[name] = 0;
        }
        
-       movieCounter[movie.name] += 1;
-       movieToEdit[movie.name] = movie.id;
+       movieCounter[name] += 1;
+       movieToEdit[name] = movie.id;
     });
 
-    for(var name in movieCounter){
+    for(var nameMovie in movieCounter) {
+      let name = nameMovie.toLowerCase();
+
       if(movieCounter[name] >= 2){
         duplicatesList.push({ name: name, count: movieCounter[name], defaultMovieId: movieToEdit[name] });
       }
