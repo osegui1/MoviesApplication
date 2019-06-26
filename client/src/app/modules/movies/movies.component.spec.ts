@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { APP_CONFIG, APP_DI_CONFIG } from '../../../app/shared/configuration/appconfig.constants';
+import { MoviesblService } from '../../../app/services/moviesbl/moviesbl.service';
 
 describe('MoviesComponent', () => {
   let component: MoviesComponent;
@@ -28,7 +29,8 @@ describe('MoviesComponent', () => {
         {
           provide: APP_CONFIG, 
           useValue: APP_DI_CONFIG
-        }
+        },
+        MoviesblService
       ]
     })
     .compileComponents();

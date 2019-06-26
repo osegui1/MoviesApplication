@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { APP_CONFIG, APP_DI_CONFIG } from '../../../../app/shared/configuration/appconfig.constants';
 import { FormComponent } from './form.component';
+import { MoviesblService } from '../../../../app/services/moviesbl/moviesbl.service';
 
 describe('FormComponent', () => {
   let component: FormComponent;
@@ -19,7 +20,8 @@ describe('FormComponent', () => {
         {
           provide: APP_CONFIG, 
           useValue: APP_DI_CONFIG
-        }
+        },
+        MoviesblService
       ]
     })
     .compileComponents();

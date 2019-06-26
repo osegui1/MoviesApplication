@@ -1,8 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { MovieDto } from '../shared/dto/movie.dto';
-import { APP_CONFIG } from '../shared/configuration/appconfig.constants';
-import { IAppConfig } from '../shared/configuration/appconfig.interface';
+import { MovieDto } from '../../shared/dto/movie.dto';
+import { APP_CONFIG } from '../../shared/configuration/appconfig.constants';
+import { IAppConfig } from '../../shared/configuration/appconfig.interface';
 
 @Injectable({
   providedIn: 'root'

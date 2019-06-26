@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { FormComponent } from './form/form.component';
 import { ListComponent } from './list/list.component';
 import { MoviesComponent } from './movies.component';
+import { MoviesblService } from '../../../app/services/moviesbl/moviesbl.service';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,9 @@ import { MoviesComponent } from './movies.component';
   imports: [
     CommonModule,
     FormsModule
+  ],
+  providers: [
+    MoviesblService
   ],
   exports: [
     MoviesComponent

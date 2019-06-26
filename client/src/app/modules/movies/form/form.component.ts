@@ -1,6 +1,7 @@
 import { Component, Input, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { MovieDto } from '../../../shared/dto/movie.dto';
-import { ApiService } from '../../../../app/services/api.service';
+import { ApiService } from '../../../services/apiservice/api.service';
+import { MoviesblService } from '../../../../app/services/moviesbl/moviesbl.service';
 
 @Component({
   selector: 'movies-form',
@@ -33,7 +34,7 @@ export class FormComponent implements OnChanges {
   edit: boolean;
   customErrors: string[];
 
-  constructor(private apiService: ApiService) { 
+  constructor(private apiService: ApiService, private movieblService: MoviesblService) { 
     this.movie = new MovieDto();
   }
 
@@ -43,13 +44,13 @@ export class FormComponent implements OnChanges {
     if(typeof movieChanges !== 'undefined' && movieChanges.currentValue.id > 0) {
       this.edit = true;
       this.moviePreviousVal = new MovieDto();
-      this.copyMovieValues(this.moviePreviousVal, movieChanges.currentValue);
+      this.movieblService.copyMovieValues(this.moviePreviousVal, movieChanges.currentValue);
     }
   }  
  
   onCancelEdit() {
     if(this.moviePreviousVal.id == this.movie.id) {
-      this.copyMovieValues(this.movieEdit, this.moviePreviousVal);
+      this.movieblService.copyMovieValues(this.movieEdit, this.moviePreviousVal);
     }
 
     this.movieEdit.hasConflict = false;
@@ -58,7 +59,7 @@ export class FormComponent implements OnChanges {
 
   onSave() {
     this.customErrors = [];
-    this.customErrors = this.validateDuplicates(this.movie.hasConflict);
+    this.customErrors = this.movieblService.validateDuplicates(this.movie.hasConflict, this.movies, this.movie);
 
     if(this.customErrors.length === 0) {
 
@@ -91,48 +92,6 @@ export class FormComponent implements OnChanges {
         this.clearForm();
       }
     });
-  }
-
-  validateDuplicates(validateName:boolean): string[] {
-    let errorMessages = [];
-    let duplicatedSlug = false;
-    let duplicatedCodeName = false;
-    let duplicatedName = false;
-
-    for(let movie of this.movies) {
-      if(movie.id !== this.movie.id) {
-        duplicatedSlug = movie.slug === this.movie.slug;
-        duplicatedCodeName = movie.codeName === this.movie.codeName;
-        duplicatedName = validateName? movie.name === this.movie.name: false;
-        
-        if(duplicatedSlug || duplicatedCodeName || duplicatedName)
-        {
-          break;
-        }
-      }
-    }
-
-    if(duplicatedSlug) {
-      errorMessages.push("There is already a movie with the same slug");
-    }
-
-    if(duplicatedCodeName) {
-      errorMessages.push("There is already a movie with the same code name");
-    }
-
-    if(duplicatedName) {
-      errorMessages.push("There is already a movie with the same name");
-    }
-
-    return errorMessages;
-  }
-
-  copyMovieValues(movieOld: MovieDto, movieNew: MovieDto) {
-    movieOld.id = movieNew.id;
-    movieOld.name = movieNew.name;
-    movieOld.gender = movieNew.gender;
-    movieOld.slug = movieNew.slug;
-    movieOld.codeName = movieNew.codeName;
   }
 
   clearForm() {

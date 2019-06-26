@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { MovieDto } from '../../../shared/dto/movie.dto';
-import { ApiService } from '../../../../app/services/api.service';
+import { ApiService } from '../../../services/apiservice/api.service';
+import { MoviesblService } from '../../../../app/services/moviesbl/moviesbl.service';
 
 @Component({
   selector: 'movies-list',
@@ -33,12 +34,12 @@ export class ListComponent implements OnChanges {
   showDuplicates: boolean = false;
   showDuplicatesLink: string = "Show Duplicates";
   
-  constructor(private apiService: ApiService) {  
+  constructor(private apiService: ApiService, private movieblService: MoviesblService) {  
     this.moviesVal = [];
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.processDuplicates();
+    this.duplicatesList = this.movieblService.processDuplicates(this.movies);
   }
 
   toggleShowDuplicates() {
@@ -52,6 +53,14 @@ export class ListComponent implements OnChanges {
     }
   }
 
+  trackByMovieFn(index, movie: MovieDto) {  
+    return movie.id;
+  }
+
+  trackByDuplicatesFn(index, duplicate: { name: string, count: number, defaultMovieId: number }) {    
+    return duplicate.defaultMovieId;
+  }
+
   onSelectMovie(movie: MovieDto) {
      this.movieSelected = movie;
      this.movieSelected.hasConflict = false;
@@ -61,7 +70,7 @@ export class ListComponent implements OnChanges {
     this.apiService.deleteMovie(movie.id).subscribe((response) => {
       if(response.ok) {
         this.movies.splice(this.movies.indexOf(movie), 1);
-        this.processDuplicates();
+        this.duplicatesList = this.movieblService.processDuplicates(this.movies);
       }
     });
   }
@@ -71,44 +80,5 @@ export class ListComponent implements OnChanges {
     this.movies.forEach(movie => { movie.hasConflict = false; });
     movieTmp.hasConflict = true;
     this.movieSelected = movieTmp;
-  }
-
-  processDuplicates() {
-    let movieCounter = {};
-    let movieToEdit = {};
-    let moviesCopy = [];
-    this.duplicatesList = [];
-
-    moviesCopy = [...this.movies];
-    this.sortMoviesArray(moviesCopy);
-
-    moviesCopy.forEach(movie => {
-       if(!movieCounter[movie.name]){
-         movieCounter[movie.name] = 0;
-       }
-       
-       movieCounter[movie.name] += 1;
-       movieToEdit[movie.name] = movie.id;
-    });
-
-    for(var name in movieCounter){
-      if(movieCounter[name] >= 2){
-        this.duplicatesList.push({ name: name, count: movieCounter[name], defaultMovieId: movieToEdit[name] });
-      }
-    }
-  }
-
-  sortMoviesArray(moviesArray: MovieDto[]) {
-    moviesArray.sort((mov1, mov2) => {
-      if(mov1.codeName > mov2.codeName) {
-        return 1;
-      }
-
-      if(mov1.codeName < mov2.codeName) {
-        return -1;
-      }
-
-      return 0;
-    });
   }
 }

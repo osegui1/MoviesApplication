@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { ListComponent } from './list.component';
 import { APP_CONFIG, APP_DI_CONFIG } from '../../../../app/shared/configuration/appconfig.constants';
+import { MoviesblService } from '../../../../app/services/moviesbl/moviesbl.service';
 
 describe('ListComponent', () => {
   let component: ListComponent;
@@ -15,7 +16,8 @@ describe('ListComponent', () => {
         {
           provide: APP_CONFIG, 
           useValue: APP_DI_CONFIG
-        }
+        },
+        MoviesblService
       ]
     })
     .compileComponents();

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieDto } from '../../shared/dto/movie.dto';
-import { ApiService } from '../../services/api.service';
+import { ApiService } from '../../services/apiservice/api.service';
 
 @Component({
   selector: 'movies-admin',

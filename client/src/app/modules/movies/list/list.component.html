@@ -1,7 +1,7 @@
 <div id ="listContainer">
   <a href="#" (click)= "toggleShowDuplicates()">{{showDuplicatesLink}}</a>
   <ul *ngIf= "showDuplicates">
-    <li *ngFor = "let duplicate of duplicatesList">
+    <li *ngFor = "let duplicate of duplicatesList; trackBy: trackByDuplicatesFn">
       <a href="#" (click)= "onDuplicateSelected(duplicate)">{{duplicate.name + ' [' + duplicate.count + ']'}}</a>
     </li>
   </ul>
@@ -14,7 +14,7 @@
       <th></th>
       <th></th>
     </thead>
-    <tr *ngFor= "let movie of movies">
+    <tr *ngFor= "let movie of movies; trackBy: trackByMovieFn">
       <td>{{movie.name}}</td>
       <td>{{movie.gender}}</td>
       <td>{{movie.slug}}</td>

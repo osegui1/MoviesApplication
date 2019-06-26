@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { MoviesModule } from './modules/movies/movies.module';
 import { APP_CONFIG, APP_DI_CONFIG } from './shared/configuration/appconfig.constants';
+import { ApiService } from './services/apiservice/api.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { APP_CONFIG, APP_DI_CONFIG } from './shared/configuration/appconfig.cons
     {
       provide: APP_CONFIG, 
       useValue: APP_DI_CONFIG
-    }
+    },
+    ApiService
   ],
   bootstrap: [AppComponent]
 })
