@@ -26,7 +26,7 @@ Installation instructions
 
 2- Go to the root folder of the server application and build the project using the command 'dotnet build'
 
-3- Go to the folder MovieServices and start the server by using 'dotnet run'. The server application should start at http://localhost:5000
+3- Go to the folder MovieServices and start the server by using 'dotnet run'. The server application should start at http://localhost:5000. The full url of the API is http://localhost:5000/api/movies.
 
 4- Go to the client folder and use 'npm install' for downloading the node modules in the project
 
