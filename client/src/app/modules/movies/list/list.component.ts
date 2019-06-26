@@ -34,6 +34,7 @@ export class ListComponent implements OnChanges {
   showDuplicatesLink: string = "Show Duplicates";
   
   constructor(private apiService: ApiService) {  
+    this.moviesVal = [];
   }
 
   ngOnChanges(changes: SimpleChanges) {

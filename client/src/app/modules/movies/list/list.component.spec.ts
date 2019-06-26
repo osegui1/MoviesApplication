@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientModule } from '@angular/common/http';
 import { ListComponent } from './list.component';
+import { APP_CONFIG, APP_DI_CONFIG } from '../../../../app/shared/configuration/appconfig.constants';
 
 describe('ListComponent', () => {
   let component: ListComponent;
@@ -8,7 +9,14 @@ describe('ListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListComponent ]
+      declarations: [ ListComponent ],
+      imports: [HttpClientModule],
+      providers: [ 
+        {
+          provide: APP_CONFIG, 
+          useValue: APP_DI_CONFIG
+        }
+      ]
     })
     .compileComponents();
   }));

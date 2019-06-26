@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { APP_CONFIG, APP_DI_CONFIG } from '../../../../app/shared/configuration/appconfig.constants';
 import { FormComponent } from './form.component';
 
 describe('FormComponent', () => {
@@ -8,7 +10,17 @@ describe('FormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FormComponent ]
+      declarations: [ FormComponent ],
+      imports: [
+        FormsModule,
+        HttpClientModule
+      ],
+      providers: [ 
+        {
+          provide: APP_CONFIG, 
+          useValue: APP_DI_CONFIG
+        }
+      ]
     })
     .compileComponents();
   }));

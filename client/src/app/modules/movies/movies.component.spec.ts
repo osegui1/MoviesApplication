@@ -1,6 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MoviesComponent } from './movies.component';
+import { FormComponent } from './form/form.component';
+import { ListComponent } from './list/list.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { APP_CONFIG, APP_DI_CONFIG } from '../../../app/shared/configuration/appconfig.constants';
 
 describe('MoviesComponent', () => {
   let component: MoviesComponent;
@@ -8,7 +14,22 @@ describe('MoviesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MoviesComponent ]
+      declarations: [
+        FormComponent,
+        ListComponent,
+        MoviesComponent
+      ],
+      imports: [
+        CommonModule,
+        FormsModule,
+        HttpClientModule
+      ],
+      providers: [ 
+        {
+          provide: APP_CONFIG, 
+          useValue: APP_DI_CONFIG
+        }
+      ]
     })
     .compileComponents();
   }));

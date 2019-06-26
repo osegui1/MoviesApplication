@@ -34,6 +34,7 @@ export class FormComponent implements OnChanges {
   customErrors: string[];
 
   constructor(private apiService: ApiService) { 
+    this.movie = new MovieDto();
   }
 
   ngOnChanges(changes: SimpleChanges) { 
