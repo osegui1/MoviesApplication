@@ -2,10 +2,13 @@
 
 Technologies used in the coding test
 ------------------------------------
-Client: Angular 8.0.1
-Server: ASP .Net Core 2.1
-Database: Sql Server 2014
-ORM: EF Db First
+-Client: Angular 8.0.1
+
+-Server: ASP .Net Core 2.1
+
+-Database: Sql Server 2014
+
+-ORM: EF Db First
 
 The technologies were selected according to the order of preference specified in the coding test. 
 
