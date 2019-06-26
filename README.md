@@ -41,6 +41,8 @@ The design patterns that were used in the coding tests are:
 
 -Repository Pattern: This pattern was used at the data access layer on the server.
 
+-Data Transfer Object for exchanging data between server and client.
+
 -MVC using Angular.
 
 -Layer oriented architecture.
