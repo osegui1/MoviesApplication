@@ -60,7 +60,8 @@ export class ListComponent implements OnInit, OnChanges {
   }
 
   onDeleteMovie(movie: MovieDto) {
-    
+    this.movies.splice(this.movies.indexOf(movie), 1);
+    this.processDuplicates();
   }
   
   onDuplicateSelected(duplicate: { name: string, count: number, defaultMovieId: number }) {

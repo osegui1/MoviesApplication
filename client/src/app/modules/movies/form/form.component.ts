@@ -61,7 +61,7 @@ export class FormComponent implements OnChanges {
     if(this.customErrors.length === 0) {
 
       if(!this.edit) {
-        this.movie.id = this.movies[this.movies.length -1].id + 1;
+        this.movie.id = this.movies.length > 0 ?this.movies[this.movies.length -1].id + 1: 1;
         this.movies.push(this.movie);
       }
 
@@ -70,7 +70,8 @@ export class FormComponent implements OnChanges {
   }
 
   onDelete() {
-
+    this.movies.splice(this.movies.indexOf(this.movie), 1);
+    this.clearForm();
   }
 
   validateDuplicates(validateName:boolean): string[] {
@@ -79,16 +80,12 @@ export class FormComponent implements OnChanges {
     let duplicatedCodeName = false;
     let duplicatedName = false;
 
-    for(let movie of this.movies)
-    {
+    for(let movie of this.movies) {
       if(movie.id !== this.movie.id) {
         duplicatedSlug = movie.slug === this.movie.slug;
         duplicatedCodeName = movie.codeName === this.movie.codeName;
-
-        if(validateName) {
-          duplicatedName = movie.name === this.movie.name;
-        }
-
+        duplicatedName = validateName? movie.name === this.movie.name: false;
+        
         if(duplicatedSlug || duplicatedCodeName || duplicatedName)
         {
           break;
